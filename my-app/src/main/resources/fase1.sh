@@ -1,4 +1,5 @@
-#! /usr/bin/env bash   
+#! /usr/bin/env bash
+start=$(date +%s)   
 #inicializar script llamando el bash
 if [[ -z $(ls /bin/7z) ]]; then
 #condicional para saber sí en el sistema se encuentra instalado 7zip para descomprimir
@@ -19,7 +20,7 @@ file=$(echo $url_file | rev |cut -d/ -f 1 | rev)
 #escribe el url como nombre del file diciendo que corte hasta el ultimo delimitador /     
 
 curl $url_file -o $file 
-#renombra el archivo como el file declarado anteriormente y lo descarga
+#renombra el archivo como parametro file  y lo descarga
 if [[ -z $(file $file | grep ASCII) ]]; then
 	7z e $file
 #condicional que verifica sí esta vacio y con el comando file al archivo verifica que tenga la propiedad de ASCII
@@ -43,3 +44,8 @@ tail -10 $file
 sleep 2
 echo '\nMatch Multi-Family'
 grep Multi-Family $file
+echo '\n# de Multi-Family'
+grep Multi-Family $file | wc -l
+ 
+time=$(date +%s)
+echo "Tiempo de ejecución:$((time-start))segundos."
